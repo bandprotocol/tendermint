@@ -33,7 +33,8 @@ func Subscribe(ctx *rpctypes.Context, query string) (*ctypes.ResultSubscribe, er
 	subCtx, cancel := context.WithTimeout(ctx.Context(), SubscribeTimeout)
 	defer cancel()
 
-	sub, err := eventBus.Subscribe(subCtx, addr, q)
+	// TODO: Increase channel size for each subscriber. Fix error buffer full
+	sub, err := eventBus.Subscribe(subCtx, addr, q, 1000)
 	if err != nil {
 		return nil, err
 	}
